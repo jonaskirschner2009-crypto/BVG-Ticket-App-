@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🚇 BVG Ticketautomat</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>🚇 BVG TICKETAUTOMAT</h1>
+        <p class="subtitle">Digitaler Fahrscheinverkauf</p>
+    </header>
+    <main>
+        <!-- Ticketauswahl -->
+        <section class="card">
+            <h2>📍 Tarifzone wählen:</h2>
+            <div class="radio-group">
+                <label><input type="radio" name="zone" value="AB" checked> AB</label>
+                <label><input type="radio" name="zone" value="ABC"> ABC</label>
+            </div>
+            <h2>🎫 Tickettyp wählen:</h2>
+            <div class="radio-group">
+                <label><input type="radio" name="ticket" value="Einzelfahrschein" checked> Einzelfahrschein</label>
+                <label><input type="radio" name="ticket" value="Kurzstrecke"> Kurzstrecke</label>
+                <label><input type="radio" name="ticket" value="Tageskarte"> Tageskarte</label>
+                <label><input type="radio" name="ticket" value="4-Fahrten-Karte"> 4-Fahrten-Karte</label>
+            </div>
+            <label class="checkbox-label">
+                <input type="checkbox" id="ermassigt">
+                👥 Ermäßigt (Schüler, Azubis, Senioren)
+            </label>
+        </section>
+        <!-- Preisanzeige -->
+        <section class="price-box">
+            <span id="current-price">Preis: 4.00 €</span>
+        </section>
+        <button class="btn primary" id="add-to-cart">➕ Zum Warenkorb hinzufügen</button>
+        <!-- Warenkorb -->
+        <section class="card">
+            <h2>🛒 Ihr Warenkorb:</h2>
+            <div class="cart-container" id="cart-container">
+                <p class="empty-cart">Warenkorb ist leer</p>
+            </div>
+            <div class="total-box">
+                <span id="total-price">💰 Gesamtbetrag: 0.00 €</span>
+            </div>
+        </section>
+        <!-- Bezahlung -->
+        <section class="card">
+            <h2>💳 Bezahlung:</h2>
+            <div class="coin-buttons">
+                <button class="btn coin" data-amount="0.50">0.50€</button>
+                <button class="btn coin" data-amount="1.00">1.00€</button>
+                <button class="btn coin" data-amount="2.00">2.00€</button>
+                <button class="btn coin" data-amount="5.00">5.00€</button>
+                <button class="btn coin" data-amount="10.00">10.00€</button>
+            </div>
+            <button class="btn success" id="pay-card">💳 Mit Karte zahlen</button>
+        </section>
+        <!-- Quittung -->
+        <section class="card" id="receipt-section">
+            <h2>🧾 Beleg:</h2>
+            <div class="receipt-container" id="receipt-container"></div>
+        </section>
+        <button class="btn secondary" id="new-purchase">🔄 Neuer Kauf</button>
+    </main>
+    <script src="script.js"></script>
+</body>
+</html>
