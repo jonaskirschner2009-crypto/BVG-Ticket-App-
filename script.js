@@ -8,11 +8,9 @@ const TICKET_PREISE = {
     "Einzelfahrschein_ABC": 5.00,
     "Einzelfahrschein_ABC_ermassigt": 3.50,
     
-    "Kurzstrecke_AB": 2.80,
-    "Kurzstrecke_AB_ermassigt": 1.90,
-    "Kurzstrecke_ABC": 2.80,
-    "Kurzstrecke_ABC_ermassigt": 1.90,
-    
+    "Kurzstrecke_AB": 2.00,
+    "Kurzstrecke_AB_ermassigt": 1.50,
+     
     "Tageskarte_AB": 11.20,
     "Tageskarte_AB_ermassigt": 7.40,
     "Tageskarte_ABC": 12.90,
