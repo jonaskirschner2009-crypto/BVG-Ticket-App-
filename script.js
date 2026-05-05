@@ -10,7 +10,9 @@ const TICKET_PREISE = {
     
     "Kurzstrecke_AB": 2.00,
     "Kurzstrecke_AB_ermassigt": 1.50,
-     
+    "Kurzstrecke_ABC":0,
+    "Kurzstrecke_ABC_ermassigt": 0,
+
     "Tageskarte_AB": 11.20,
     "Tageskarte_AB_ermassigt": 7.40,
     "Tageskarte_ABC": 12.90,
