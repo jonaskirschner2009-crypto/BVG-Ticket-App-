@@ -10,9 +10,9 @@ const TICKET_PREISE = {
     
     "Kurzstrecke_AB": 2.00,
     "Kurzstrecke_AB_ermassigt": 1.50,
-    "Kurzstrecke_ABC":0,
-    "Kurzstrecke_ABC_ermassigt": 0,
-
+    "Kurzstrecke_ABC": 2.80,
+    "Kurzstrecke_ABC_ermassigt": 1.90,
+     
     "Tageskarte_AB": 11.20,
     "Tageskarte_AB_ermassigt": 7.40,
     "Tageskarte_ABC": 12.90,
@@ -36,13 +36,17 @@ class Ticket {
         this.preis = this.berechnePreis();
     }
 
-    berechnePreis() {
-        let key = `${this.ticketType}_${this.zone}`;
-        if (this.ermassigt) {
-            key += "_ermassigt";
-        }
-        return TICKET_PREISE[key] || 0;
+   berechnePreis() {
+    let key = this.ticketType;
+    // Nur Zone hinzufügen wenn NOT bereits im ticketType
+    if (!this.ticketType.includes("_AB") && !this.ticketType.includes("_ABC")) {
+        key += `_${this.zone}`;
     }
+    if (this.ermassigt) {
+        key += "_ermassigt";
+    }
+    return TICKET_PREISE[key] || 0;
+}
 
     getInfo() {
         let text = `${this.ticketType} (${this.zone})`;
@@ -161,8 +165,20 @@ function isErmassigt() {
 }
 
 function updatePrice() {
-    const ticket = new Ticket(getSelectedTicketType(), getSelectedZone(), isErmassigt());
+    const zone = getSelectedZone();
+    const ticket = new Ticket(getSelectedTicketType(), zone, isErmassigt());
     currentPriceEl.textContent = `Preis: ${ticket.preis.toFixed(2)} €`;
+    
+    const kurzstreckeAB = document.querySelector('input[value="Kurzstrecke_AB"]').parentElement;
+    const kurzstreckeABC = document.querySelector('input[value="Kurzstrecke_ABC"]').parentElement;
+    
+    if (zone === "AB") {
+        kurzstreckeAB.style.display = "block";
+        kurzstreckeABC.style.display = "none";
+    } else {
+        kurzstreckeAB.style.display = "none";
+        kurzstreckeABC.style.display = "block";
+    }
 }
 
 function updateCartDisplay() {
