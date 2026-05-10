@@ -133,6 +133,13 @@ let bezahlung = null;
 let resetTimer = null;
 
 // ============================================================================
+// AUTO-RESET TOGGLE STATE
+// ============================================================================
+
+const autoResetToggle = document.getElementById('auto-reset-toggle');
+let autoResetEnabled = autoResetToggle.checked; // Standard: AN (checked)
+
+// ============================================================================
 // DOM-ELEMENTE
 // ============================================================================
 
@@ -265,7 +272,11 @@ function showFinalReceipt() {
     receiptContainer.appendChild(successMsg);
     
     clearTimeout(resetTimer);
-    resetTimer = setTimeout(newPurchase, 5000);
+    
+    // Auto-Reset nur wenn Toggle AN ist
+    if (autoResetEnabled) {
+        resetTimer = setTimeout(newPurchase, 10000); // 10 Sekunden
+    }
 }
 
 function addCoin(amount) {
@@ -347,6 +358,12 @@ coinButtons.forEach(btn => {
 
 payCardBtn.addEventListener('click', payWithCard);
 newPurchaseBtn.addEventListener('click', newPurchase);
+
+// Auto-Reset Toggle Event Listener
+autoResetToggle.addEventListener('change', () => {
+    autoResetEnabled = autoResetToggle.checked;
+    console.log('Auto-Reset:', autoResetEnabled ? '✅ AN (10 Sekunden)' : '❌ AUS');
+});
 
 // Initial
 updatePrice();
