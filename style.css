@@ -90,6 +90,57 @@ main {
     height: 18px;
 }
 
+/* ============================================================================ */
+/* TOGGLE SWITCH STYLES */
+/* ============================================================================ */
+
+.toggle-label {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    cursor: pointer;
+    font-size: 0.95rem;
+    color: #ffffff;
+}
+
+.toggle-label input[type="checkbox"] {
+    display: none; /* Verstecken wir das echte Checkbox */
+}
+
+.toggle-switch {
+    position: relative;
+    width: 50px;
+    height: 26px;
+    background-color: #cc0000; /* ROT - Default (AUS) */
+    border-radius: 13px;
+    transition: background-color 0.3s ease;
+    display: inline-block;
+    flex-shrink: 0;
+}
+
+.toggle-switch::after {
+    content: '';
+    position: absolute;
+    width: 22px;
+    height: 22px;
+    background-color: white;
+    border-radius: 50%;
+    top: 2px;
+    left: 2px;
+    transition: left 0.3s ease;
+}
+
+/* Wenn CHECKED (AN) */
+.toggle-label input[type="checkbox"]:checked + .toggle-switch {
+    background-color: #00cc44; /* GRÜN */
+}
+
+.toggle-label input[type="checkbox"]:checked + .toggle-switch::after {
+    left: 26px; /* Hebel nach rechts */
+}
+
+/* ============================================================================ */
+
 .price-box {
     background: linear-gradient(135deg, #0084ff, #0066cc);
     border-radius: 10px;
