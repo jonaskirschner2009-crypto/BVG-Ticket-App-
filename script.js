@@ -36,17 +36,17 @@ class Ticket {
         this.preis = this.berechnePreis();
     }
 
-   berechnePreis() {
-    let key = this.ticketType;
-    // Nur Zone hinzufügen wenn NOT bereits im ticketType
-    if (!this.ticketType.includes("_AB") && !this.ticketType.includes("_ABC")) {
-        key += `_${this.zone}`;
+    berechnePreis() {
+        let key = this.ticketType;
+        // Nur Zone hinzufügen wenn NOT bereits im ticketType
+        if (!this.ticketType.includes("_AB") && !this.ticketType.includes("_ABC")) {
+            key += `_${this.zone}`;
+        }
+        if (this.ermassigt) {
+            key += "_ermassigt";
+        }
+        return TICKET_PREISE[key] || 0;
     }
-    if (this.ermassigt) {
-        key += "_ermassigt";
-    }
-    return TICKET_PREISE[key] || 0;
-}
 
     getInfo() {
         let text = `${this.ticketType} (${this.zone})`;
@@ -172,6 +172,7 @@ function isErmassigt() {
 }
 
 function updatePrice() {
+    const kurzstreckeABInput = document.querySelector('input[value="Kurzstrecke_AB"]');
     const zone = getSelectedZone();
     const ticket = new Ticket(getSelectedTicketType(), zone, isErmassigt());
     currentPriceEl.textContent = `Preis: ${ticket.preis.toFixed(2)} €`;
@@ -186,11 +187,19 @@ function updatePrice() {
         kurzstreckeAB.style.display = "none";
         kurzstreckeABC.style.display = "block";
     }
+
+    if (kurzstreckeABInput.checked && zone === "ABC") {
+        const einzelfahrscheinInput = document.querySelector('input[value="Einzelfahrschein"]');
+        einzelfahrscheinInput.checked = true;
+    }
 }
 
 function updateCartDisplay() {
     cartContainer.innerHTML = '';
     
+    let name = "Kurzstrecke";
+    let cleanName = name.split("_")[0]; //gibt "Kurzstrecke"
+
     if (warenkorb.getAnzahlTickets() === 0) {
         cartContainer.innerHTML = '<p class="empty-cart">Warenkorb ist leer</p>';
         totalPriceEl.textContent = '💰 Gesamtbetrag: 0.00 €';
@@ -202,7 +211,7 @@ function updateCartDisplay() {
     for (const key in gruppen) {
         const { ticket, anzahl } = gruppen[key];
         const prefix = anzahl > 1 ? `(${anzahl}x) ` : '';
-        let displayName = `${prefix}${ticket.ticketType}`;
+        let displayName = `${prefix}${ticket.ticketType.split("_")[0]}`;
         if (ticket.ermassigt) {
             displayName += ' (Ermäßigt)';
         }
@@ -242,15 +251,18 @@ function showFinalReceipt() {
     
     for (const key in gruppen) {
         const { ticket, anzahl } = gruppen[key];
-        let name = anzahl > 1 ? `(${anzahl}x) ${ticket.ticketType}` : ticket.ticketType;
-        if (ticket.ermassigt) name += ' (Erm)';
-        
+        const prefix = anzahl > 1 ? `(${anzahl}x) ` : '';
+        let displayName = `${prefix}${ticket.ticketType.split("_")[0]}`;
+        if (ticket.ermassigt) {
+            displayName += ' (Erm)';
+        }
+
         const item = document.createElement('div');
         item.className = 'receipt-item';
         item.innerHTML = `
             <span class="receipt-icon">✅</span>
             <div class="receipt-item-info">
-                <div class="receipt-item-name">${name}</div>
+                <div class="receipt-item-name">${displayName}</div>
                 <div class="receipt-item-zone">Zone ${ticket.zone}</div>
             </div>
             <div class="receipt-item-price">${(ticket.preis * anzahl).toFixed(2)} €</div>
